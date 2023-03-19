@@ -24,6 +24,9 @@ public class User {
     @OneToMany
     private List<Post> posts;
 
+    @Column(name = "ROLE")
+    private Role role;
+
     @Override
     public String toString() {
         return "User{" +

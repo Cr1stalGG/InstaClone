@@ -1,5 +1,6 @@
 package com.instagram.InstaClone.controller;
 
+import com.instagram.InstaClone.entity.Role;
 import com.instagram.InstaClone.entity.User;
 import com.instagram.InstaClone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class UserController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void addUser(@RequestBody User user){
+        user.setRole(Role.USER);
+
         userRepository.save(user);
     }
 
