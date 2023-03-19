@@ -36,8 +36,11 @@ public class PostController {
     public void update(@PathVariable long id, @RequestParam Post newPost){
         Post post = postRepository.findById(id);
 
-        post.setTopic(newPost.getTopic());
-        post.setText(newPost.getText());
+        if(newPost.getTopic() != null)
+            post.setTopic(newPost.getTopic());
+
+        if(newPost.getText() != null)
+            post.setText(newPost.getText());
 
         postRepository.save(post);
     }

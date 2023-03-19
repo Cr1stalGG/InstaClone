@@ -39,9 +39,14 @@ public class UserController {
     public void updateUser(@PathVariable long id, @RequestBody User newUser){
         User user = userRepository.findById(id);
 
-        user.setUsername(newUser.getUsername());
-        user.setPassword(newUser.getPassword());
-        user.setPosts(newUser.getPosts());
+        if(newUser.getUsername() != null)
+            user.setUsername(newUser.getUsername());
+
+        if(newUser.getPassword() != null)
+            user.setPassword(newUser.getPassword());
+
+        if(newUser.getPosts() != null)
+            user.setPosts(newUser.getPosts());
 
         userRepository.save(user);
     }
