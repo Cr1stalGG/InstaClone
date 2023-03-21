@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "CHAT")
+@Table(name = "CHATS")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -16,11 +16,11 @@ public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User firstUser;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User secUser;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     List<Message> messages;
 
     public void addMessage(Message message){

@@ -1,50 +1,47 @@
 package com.instagram.InstaClone.controller;
 
-import com.instagram.InstaClone.entity.Chat;
+import com.instagram.InstaClone.dto.ChatMainDataDTO;
+import com.instagram.InstaClone.dto.ChatRequest;
 import com.instagram.InstaClone.entity.Message;
 import com.instagram.InstaClone.service.ChatService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/chat")
+@RequestMapping("/chats")
+@AllArgsConstructor
 public class ChatController {
 private final ChatService chatService;
 
-    @Autowired
-    public ChatController(ChatService chatService) {
-        this.chatService = chatService;
-    }
-
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public List<Chat> getAll(){
+    @GetMapping()
+    public List<ChatMainDataDTO> getAll(){
         return chatService.findAll();
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public Chat getChat(@PathVariable long id){
+    @GetMapping("/{id}")
+    ChatMainDataDTO getChat(@PathVariable long id){
         return chatService.findById(id);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void addChat(@RequestBody Chat chat){
-        chatService.save(chat);
+    @PostMapping()
+    public void addChat(@RequestBody ChatRequest chat){
+        chatService.addChat(chat);
     }
 
-    @RequestMapping(value = "/{chatId}/sendMessage", method = RequestMethod.POST)
+    @PostMapping("/{chatId}")
     private void sendMessage(@PathVariable long chatId, @RequestBody Message message){
         chatService.sendMessage(chatId, message);
     }
 
-    @RequestMapping(value = "/{chatId}/deleteMessage", method = RequestMethod.DELETE)
-    public void deleteMessage(@PathVariable long chatId, @RequestBody long messageId){
+    @DeleteMapping("/{chatId}/{messageId}")
+    public void deleteMessage(@PathVariable long chatId, @PathVariable long messageId){
         chatService.removeMessageById(chatId, messageId);
     }
 
-    @RequestMapping(value = "/delete/{chatId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{chatId}")
     public void deleteChat(@PathVariable long chatId){
-        chatService.deleteChat(chatId);
+        chatService.deleteChatById(chatId);
     }
 }

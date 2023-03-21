@@ -1,42 +1,47 @@
 package com.instagram.InstaClone.service;
 
-import com.instagram.InstaClone.entity.Role;
+import com.instagram.InstaClone.dto.UserMainDataDTO;
+import com.instagram.InstaClone.dto.UserRegistrationRequest;
+import com.instagram.InstaClone.dto.UserUpdateRequestData;
 import com.instagram.InstaClone.entity.User;
+import com.instagram.InstaClone.enumiration.Role;
 import com.instagram.InstaClone.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+@AllArgsConstructor
+public class UserService implements com.instagram.InstaClone.api.UserService {
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository repository) {
-        this.userRepository = repository;
+    @Override
+    public UserMainDataDTO findById(long id) {
+        return new UserMainDataDTO(userRepository.findById(id));
     }
 
+    @Override
+    public void addUser(UserRegistrationRequest newUser) {
+        User user = new User();
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public User findById(long id) {
-        return userRepository.findById(id);
-    }
-
-    public void add(User user) {
+        user.setUsername(newUser.getUsername());
+        user.setEmail(newUser.getEmail());
+        user.setPassword(newUser.getPassword());
         user.setRole(Role.USER);
 
         userRepository.save(user);
     }
 
-    public void update(long id, User newUser) {
+    @Override
+    public void updateUser(long id, UserUpdateRequestData newUser) {
         User user = userRepository.findById(id);
 
         if(newUser.getUsername() != null)
             user.setUsername(newUser.getUsername());
+
+        if(newUser.getBio() != null)
+            user.setBio(newUser.getBio());
 
         if(newUser.getEmail() != null)
             user.setEmail(newUser.getEmail());
@@ -44,21 +49,21 @@ public class UserService {
         if(newUser.getPassword() != null)
             user.setPassword(newUser.getPassword());
 
-        if(newUser.getPosts() != null)
-            user.setPosts(newUser.getPosts());
+        if(newUser.getBirthday() !=  null)
+            user.setBirthday(newUser.getBirthday());
+
+        if(newUser.getSex() != null)
+            user.setSex(newUser.getSex());
 
         userRepository.save(user);
     }
 
-    public void deleteById(long id) {
+    @Override
+    public void deleteUserById(long id) {
         userRepository.deleteById(id);
     }
 
-
-    public void deleteAll() {
-        userRepository.deleteAll();
-    }
-
+    @Override
     public List<User> findAllByUsername(String username) {
         return userRepository.searchAllByUsername(username);
     }

@@ -1,57 +1,41 @@
 package com.instagram.InstaClone.controller;
 
-import com.instagram.InstaClone.entity.Post;
-import com.instagram.InstaClone.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.instagram.InstaClone.api.PostService;
+import com.instagram.InstaClone.dto.PostMainDataDTO;
+import com.instagram.InstaClone.dto.PostRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/post")
+@RequestMapping("/users/posts")
+@AllArgsConstructor
 public class PostController {
-    private final PostRepository postRepository;
+    private final PostService postService;
 
-    @Autowired
-    public PostController(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    @GetMapping()
+    public List<PostMainDataDTO> getAllPosts(){
+        return postService.findAll();
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public List<Post> getAllPosts(){
-        return postRepository.findAll();
+    @GetMapping("/{id}")
+    public PostMainDataDTO getPost(@PathVariable long id){
+        return postService.findById(id);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public Post getPost(@PathVariable long id){
-        return postRepository.findById(id);
+    @PostMapping()
+    public void addPost(@RequestParam PostRequest post){
+        postService.addPost(post);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void addPost(@RequestParam Post post){
-        postRepository.save(post);
+    @PutMapping("/{id}")
+    public void update(@PathVariable long id, @RequestParam PostRequest newPost){
+        postService.update(id, newPost);
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable long id, @RequestParam Post newPost){
-        Post post = postRepository.findById(id);
-
-        if(newPost.getTopic() != null)
-            post.setTopic(newPost.getTopic());
-
-        if(newPost.getText() != null)
-            post.setText(newPost.getText());
-
-        postRepository.save(post);
-    }
-
-    @RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
-    public void deleteAllPosts(){
-        postRepository.deleteAll();
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public void deletePost(@PathVariable long id){
-        postRepository.deleteById(id);
+        postService.deletePostById(id);
     }
 }

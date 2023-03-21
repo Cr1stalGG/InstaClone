@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "POST")
+@Table(name = "POSTS")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,7 +22,7 @@ public class Post {
     @Column(name = "TEXT")
     private String text;
     @Column(name = "LIKES_COUNTER")
-    private int likes;
+    private long likes;
     @Column(name = "DATE")
     private Date date;
 
@@ -53,11 +53,11 @@ public class Post {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        long result = (int) (id ^ (id >>> 32));
         result = 31 * result + (topic != null ? topic.hashCode() : 0);
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + likes;
         result = 31 * result + (date != null ? date.hashCode() : 0);
-        return result;
+        return (int) result;
     }
 }
