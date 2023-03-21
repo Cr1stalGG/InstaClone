@@ -60,6 +60,6 @@ public class UserService {
     }
 
     public List<User> findAllByUsername(String username) {
-        return userRepository.findAllByUsername(username);
+        return userRepository.searchAllByUsername(username);
     }
 }
