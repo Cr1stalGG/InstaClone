@@ -58,4 +58,8 @@ public class UserService {
     public void deleteAll() {
         userRepository.deleteAll();
     }
+
+    public List<User> findAllByUsername(String username) {
+        return userRepository.findAllByUsername(username);
+    }
 }

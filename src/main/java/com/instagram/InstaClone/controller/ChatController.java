@@ -1,6 +1,7 @@
 package com.instagram.InstaClone.controller;
 
 import com.instagram.InstaClone.entity.Chat;
+import com.instagram.InstaClone.entity.Message;
 import com.instagram.InstaClone.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,14 @@ private final ChatService chatService;
         return chatService.findById(id);
     }
 
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public void addChat(@RequestBody Chat chat){
+        chatService.save(chat);
+    }
+
     @RequestMapping(value = "/{chatId}/sendMessage", method = RequestMethod.POST)
-    private void sendMessage(@PathVariable long chatId, @RequestBody long senderId, @RequestBody String messageText){
-        chatService.sendMessage(chatId, senderId, messageText);
+    private void sendMessage(@PathVariable long chatId, @RequestBody Message message){
+        chatService.sendMessage(chatId, message);
     }
 
     @RequestMapping(value = "/{chatId}/deleteMessage", method = RequestMethod.DELETE)

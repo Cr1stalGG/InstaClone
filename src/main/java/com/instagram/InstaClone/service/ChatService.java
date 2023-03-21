@@ -37,13 +37,10 @@ public class ChatService {
         chatRepository.save(chat);
     }
 
-    public void sendMessage(long chatId,  long senderId, String messageText){
+    public void sendMessage(long chatId,  Message message){
         Chat chat = chatRepository.findById(chatId);
 
-        Message message = new Message();
-
-        message.setSenderId(senderId);
-        message.setMessage(messageText);
+        messageRepository.save(message);
 
         chat.addMessage(message);
 
@@ -54,5 +51,9 @@ public class ChatService {
         Chat chat = chatRepository.findById(chatId);
 
         chatRepository.delete(chat);
+    }
+
+    public void save(Chat chat) {
+        chatRepository.save(chat);
     }
 }
