@@ -2,11 +2,11 @@ package com.instagram.InstaClone.service;
 
 import com.instagram.InstaClone.dto.ChatMainDataDTO;
 import com.instagram.InstaClone.dto.ChatRequest;
+import com.instagram.InstaClone.dto.conventor.ChatConvertor;
 import com.instagram.InstaClone.entity.Chat;
 import com.instagram.InstaClone.entity.Message;
 import com.instagram.InstaClone.repository.ChatRepository;
 import com.instagram.InstaClone.repository.MessageRepository;
-import com.instagram.InstaClone.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,8 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class ChatService implements com.instagram.InstaClone.api.ChatService {
-    private final UserRepository userRepository;
+public class ChatService implements com.instagram.InstaClone.service.api.ChatService {
+    private final ChatConvertor chatConvertor;
     private final MessageRepository messageRepository;
     private final ChatRepository chatRepository;
 
@@ -25,14 +25,14 @@ public class ChatService implements com.instagram.InstaClone.api.ChatService {
         List<ChatMainDataDTO> chatList = new ArrayList<>();
 
         for(Chat chat : chatRepository.findAll())
-            chatList.add(new ChatMainDataDTO(chat));
+            chatList.add(chatConvertor.convertMainDataToDTO(chat));
 
         return chatList;
     }
 
     @Override
     public ChatMainDataDTO findById(long id){
-        return new ChatMainDataDTO(chatRepository.findById(id));
+        return chatConvertor.convertMainDataToDTO(chatRepository.findById(id));
     }
 
     @Override
@@ -65,11 +65,6 @@ public class ChatService implements com.instagram.InstaClone.api.ChatService {
 
     @Override
     public void addChat(ChatRequest newChat) {
-        Chat chat = new Chat();
-
-        chat.setFirstUser(userRepository.findById(newChat.getFirstUserID()));
-        chat.setSecUser(userRepository.findById(newChat.getSecUserID()));
-
-        chatRepository.save(chat);
+        chatRepository.save(chatConvertor.convertChatRequestToEntity(newChat));
     }
 }

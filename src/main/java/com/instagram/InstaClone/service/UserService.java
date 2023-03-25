@@ -3,6 +3,7 @@ package com.instagram.InstaClone.service;
 import com.instagram.InstaClone.dto.UserMainDataDTO;
 import com.instagram.InstaClone.dto.UserRegistrationRequest;
 import com.instagram.InstaClone.dto.UserUpdateRequestData;
+import com.instagram.InstaClone.dto.conventor.UserConvertor;
 import com.instagram.InstaClone.entity.User;
 import com.instagram.InstaClone.enumiration.Role;
 import com.instagram.InstaClone.repository.UserRepository;
@@ -14,21 +15,19 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class UserService implements com.instagram.InstaClone.api.UserService {
+public class UserService implements com.instagram.InstaClone.service.api.UserService {
     private final UserRepository userRepository;
+    private final UserConvertor userConvertor;
 
     @Override
     public UserMainDataDTO findById(long id) {
-        return new UserMainDataDTO(userRepository.findById(id));
+        return userConvertor.convertMainDataToDTO(userRepository.findById(id));
     }
 
     @Override
     public void addUser(UserRegistrationRequest newUser) {
-        User user = new User();
+        User user = userConvertor.convertRegistrationRequestToEntity(newUser);
 
-        user.setUsername(newUser.getUsername());
-        user.setEmail(newUser.getEmail());
-        user.setPassword(newUser.getPassword());
         user.setRole(Role.USER);
 
         userRepository.save(user);
@@ -69,7 +68,7 @@ public class UserService implements com.instagram.InstaClone.api.UserService {
         List<UserMainDataDTO> users = new ArrayList<>();
 
         for(User user : userRepository.searchAllByUsername(username))
-            users.add(new UserMainDataDTO(user));
+            users.add(userConvertor.convertMainDataToDTO(user));
 
         return users;
     }

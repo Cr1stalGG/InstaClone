@@ -2,6 +2,7 @@ package com.instagram.InstaClone.service;
 
 import com.instagram.InstaClone.dto.PostMainDataDTO;
 import com.instagram.InstaClone.dto.PostRequest;
+import com.instagram.InstaClone.dto.conventor.PostConvertor;
 import com.instagram.InstaClone.entity.Post;
 import com.instagram.InstaClone.repository.PostRepository;
 import lombok.AllArgsConstructor;
@@ -12,36 +13,27 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class PostService implements com.instagram.InstaClone.api.PostService {
+public class PostService implements com.instagram.InstaClone.service.api.PostService {
     private final PostRepository postRepository;
+    private final PostConvertor postConvertor;
     @Override
     public List<PostMainDataDTO> findAll() {
         List<PostMainDataDTO> posts = new ArrayList<>();
 
         for(Post post : postRepository.findAll())
-            posts.add(new PostMainDataDTO(post));
+            posts.add(postConvertor.convertMainDataToDTO(post));
 
         return posts;
     }
 
     @Override
     public PostMainDataDTO findById(long postId) {
-        return new PostMainDataDTO(postRepository.findById(postId));
+        return postConvertor.convertMainDataToDTO(postRepository.findById(postId));
     }
 
     @Override
     public void addPost(PostRequest newPost) {
-        Post post = new Post();
-
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-        post.setTopic(newPost.getTopic());
-        post.setText(newPost.getText());
-        post.setLikes(0);
-        post.setDate(sqlDate);
-
-        postRepository.save(post);
+        postRepository.save(postConvertor.convertPostRequestDataToEntity(newPost));
     }
 
     @Override

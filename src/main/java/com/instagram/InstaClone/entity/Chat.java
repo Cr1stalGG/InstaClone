@@ -3,6 +3,7 @@ package com.instagram.InstaClone.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -12,13 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private User firstUser;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private User secUser;
     @OneToMany(fetch = FetchType.LAZY)
     List<Message> messages;

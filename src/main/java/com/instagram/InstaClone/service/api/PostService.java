@@ -1,4 +1,4 @@
-package com.instagram.InstaClone.api;
+package com.instagram.InstaClone.service.api;
 
 import com.instagram.InstaClone.dto.PostMainDataDTO;
 import com.instagram.InstaClone.dto.PostRequest;

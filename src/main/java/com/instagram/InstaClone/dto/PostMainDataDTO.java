@@ -1,21 +1,16 @@
 package com.instagram.InstaClone.dto;
 
-import com.instagram.InstaClone.entity.Post;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
-@Getter
+@Data
+@NoArgsConstructor
 public class PostMainDataDTO {
-    private final String topic;
-    private final String text;
-    private final long likes;
-    private final Date date;
+    private String topic;
+    private String text;
+    private long likes;
+    private Date date;
 
-    public PostMainDataDTO(Post post) {
-        this.topic = post.getTopic();
-        this.text = post.getText();
-        this.likes = post.getLikes();
-        this.date = post.getDate();
-    }
 }

@@ -5,6 +5,7 @@ import com.instagram.InstaClone.enumiration.Sex;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
@@ -16,6 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +40,7 @@ public class User {
     private List<User> following;
     @OneToMany(fetch = FetchType.LAZY)
     private List<User> followers;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Post> posts;
 
     @Override
@@ -53,35 +55,5 @@ public class User {
                 ", sex=" + sex +
                 ", role=" + role +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != user.id) return false;
-        if (!Objects.equals(username, user.username)) return false;
-        if (!Objects.equals(bio, user.bio)) return false;
-        if (!Objects.equals(email, user.email)) return false;
-        if (!Objects.equals(password, user.password)) return false;
-        if (!Objects.equals(birthday, user.birthday)) return false;
-        if (sex != user.sex) return false;
-        return role == user.role;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (bio != null ? bio.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        return result;
     }
 }

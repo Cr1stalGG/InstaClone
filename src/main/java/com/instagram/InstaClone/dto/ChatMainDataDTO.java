@@ -1,20 +1,17 @@
 package com.instagram.InstaClone.dto;
 
-import com.instagram.InstaClone.entity.Chat;
 import com.instagram.InstaClone.entity.Message;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatMainDataDTO {
-    private final String firstUserUsername;
-    private final String secondUserUsername;
-    private final List<Message> messages;
-
-    public ChatMainDataDTO(Chat chat) {
-        this.firstUserUsername = chat.getFirstUser().getUsername();
-        this.secondUserUsername = chat.getSecUser().getUsername();
-        this.messages = chat.getMessages();
-    }
+    private String firstUserUsername;
+    private String secondUserUsername;
+    private List<Message> messages;
 }

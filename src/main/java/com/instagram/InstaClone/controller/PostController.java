@@ -1,6 +1,6 @@
 package com.instagram.InstaClone.controller;
 
-import com.instagram.InstaClone.api.PostService;
+import com.instagram.InstaClone.service.api.PostService;
 import com.instagram.InstaClone.dto.PostMainDataDTO;
 import com.instagram.InstaClone.dto.PostRequest;
 import lombok.AllArgsConstructor;
