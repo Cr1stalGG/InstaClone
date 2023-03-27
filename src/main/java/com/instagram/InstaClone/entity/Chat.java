@@ -22,8 +22,8 @@ public class Chat {
     private User firstUser;
     @OneToOne(fetch = FetchType.EAGER)
     private User secUser;
-    @OneToMany(fetch = FetchType.LAZY)
-    List<Message> messages;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Message> messages;
 
     public void addMessage(Message message){
         messages.add(message);

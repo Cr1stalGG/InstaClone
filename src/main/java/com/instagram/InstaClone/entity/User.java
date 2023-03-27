@@ -35,12 +35,16 @@ public class User {
     private Sex sex;
     @Column(name = "ROLE")
     private Role role;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<User> following;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<User> followers;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Post> posts;
+
+    public void addPost(Post post){
+        posts.add(post);
+    }
 
     @Override
     public String toString() {

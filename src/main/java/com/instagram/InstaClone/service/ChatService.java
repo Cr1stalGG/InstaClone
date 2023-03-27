@@ -2,7 +2,9 @@ package com.instagram.InstaClone.service;
 
 import com.instagram.InstaClone.dto.ChatMainDataDTO;
 import com.instagram.InstaClone.dto.ChatRequest;
+import com.instagram.InstaClone.dto.MessageRequest;
 import com.instagram.InstaClone.dto.conventor.ChatConvertor;
+import com.instagram.InstaClone.dto.conventor.MessageConvertor;
 import com.instagram.InstaClone.entity.Chat;
 import com.instagram.InstaClone.entity.Message;
 import com.instagram.InstaClone.repository.ChatRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ChatService implements com.instagram.InstaClone.service.api.ChatService {
     private final ChatConvertor chatConvertor;
     private final MessageRepository messageRepository;
+    private final MessageConvertor messageConvertor;
     private final ChatRepository chatRepository;
 
     @Override
@@ -46,8 +49,9 @@ public class ChatService implements com.instagram.InstaClone.service.api.ChatSer
     }
 
     @Override
-    public void sendMessage(long chatId,  Message message){
+    public void sendMessage(long chatId, MessageRequest messageDTO){
         Chat chat = chatRepository.findById(chatId);
+        Message message = messageConvertor.convertMessageRequestToEntity(messageDTO);
 
         messageRepository.save(message);
 

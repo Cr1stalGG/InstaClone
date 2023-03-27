@@ -2,7 +2,7 @@ package com.instagram.InstaClone.controller;
 
 import com.instagram.InstaClone.dto.ChatMainDataDTO;
 import com.instagram.InstaClone.dto.ChatRequest;
-import com.instagram.InstaClone.entity.Message;
+import com.instagram.InstaClone.dto.MessageRequest;
 import com.instagram.InstaClone.service.ChatService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ private final ChatService chatService;
     }
 
     @PostMapping("/{chatId}")
-    private void sendMessage(@PathVariable long chatId, @RequestBody Message message){
+    private void sendMessage(@PathVariable long chatId, @RequestBody MessageRequest message){
         chatService.sendMessage(chatId, message);
     }
 

@@ -3,7 +3,6 @@ package com.instagram.InstaClone.dto.conventor;
 import com.instagram.InstaClone.dto.ChatMainDataDTO;
 import com.instagram.InstaClone.dto.ChatRequest;
 import com.instagram.InstaClone.entity.Chat;
-import com.instagram.InstaClone.repository.ChatRepository;
 import com.instagram.InstaClone.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
