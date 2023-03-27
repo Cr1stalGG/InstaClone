@@ -1,10 +1,17 @@
 package com.instagram.InstaClone.service;
 
+import com.instagram.InstaClone.dto.CommentMainDataDTO;
+import com.instagram.InstaClone.dto.CommentRequest;
 import com.instagram.InstaClone.dto.PostMainDataDTO;
 import com.instagram.InstaClone.dto.PostRequest;
+import com.instagram.InstaClone.dto.conventor.CommentConvertor;
 import com.instagram.InstaClone.dto.conventor.PostConvertor;
+import com.instagram.InstaClone.entity.Comment;
 import com.instagram.InstaClone.entity.Post;
+import com.instagram.InstaClone.entity.User;
+import com.instagram.InstaClone.repository.CommentRepository;
 import com.instagram.InstaClone.repository.PostRepository;
+import com.instagram.InstaClone.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +22,9 @@ import java.util.List;
 @Service
 public class PostService implements com.instagram.InstaClone.service.api.PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final CommentConvertor commentConvertor;
     private final PostConvertor postConvertor;
     @Override
     public List<PostMainDataDTO> findAll() {
@@ -32,8 +42,12 @@ public class PostService implements com.instagram.InstaClone.service.api.PostSer
     }
 
     @Override
-    public void addPost(PostRequest newPost) {
-        postRepository.save(postConvertor.convertPostRequestDataToEntity(newPost));
+    public void addPost(long userId, PostRequest newPost) {
+        User user = userRepository.findById(userId);
+
+        user.addPost(postConvertor.convertPostRequestDataToEntity(newPost));
+
+        userRepository.save(user);
     }
 
     @Override
@@ -53,4 +67,30 @@ public class PostService implements com.instagram.InstaClone.service.api.PostSer
     public void deletePostById(long postId) {
         postRepository.deleteById(postId);
     }
+
+    @Override
+    public List<CommentMainDataDTO> getComments(long postId) {
+        List<CommentMainDataDTO> commentDTOList = new ArrayList<>();
+
+        for(Comment comment : postRepository.findById(postId).getComments())
+            commentDTOList.add(commentConvertor.convertMainDataToDTO(comment));
+
+        return commentDTOList;
+    }
+
+    @Override
+    public void addComment(long postId, CommentRequest commentDTO) {
+        Post post = postRepository.findById(postId);
+        Comment comment = commentConvertor.convertCommentRequestToEntity(commentDTO);
+
+        post.addComment(comment);
+
+        postRepository.save(post);
+    }
+
+    @Override
+    public void deleteCommentById(long id) {
+        commentRepository.deleteById(id);
+    }
+
 }

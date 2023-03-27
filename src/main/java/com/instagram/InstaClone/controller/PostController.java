@@ -1,5 +1,7 @@
 package com.instagram.InstaClone.controller;
 
+import com.instagram.InstaClone.dto.CommentMainDataDTO;
+import com.instagram.InstaClone.dto.CommentRequest;
 import com.instagram.InstaClone.service.api.PostService;
 import com.instagram.InstaClone.dto.PostMainDataDTO;
 import com.instagram.InstaClone.dto.PostRequest;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users/posts")
+@RequestMapping("/users/{userId}/posts")
 @AllArgsConstructor
 public class PostController {
     private final PostService postService;
@@ -25,12 +27,12 @@ public class PostController {
     }
 
     @PostMapping()
-    public void addPost(@RequestParam PostRequest post){
-        postService.addPost(post);
+    public void addPost(@PathVariable long userId, @RequestBody PostRequest post){
+        postService.addPost(userId, post);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable long id, @RequestParam PostRequest newPost){
+    public void update(@PathVariable long id, @RequestBody PostRequest newPost){
         postService.update(id, newPost);
     }
 
@@ -38,4 +40,20 @@ public class PostController {
     public void deletePost(@PathVariable long id){
         postService.deletePostById(id);
     }
+
+    @GetMapping("/comments/{id}")
+    public List<CommentMainDataDTO> getComments(@PathVariable long id){
+        return postService.getComments(id);
+    }
+
+    @PostMapping("/comments/{id}")
+    public void addComment(@PathVariable long id, @RequestBody CommentRequest commentRequest){
+        postService.addComment(id, commentRequest);
+    }
+
+    @DeleteMapping("/comments/{id}")
+    public void deleteCommentById(@PathVariable long id){
+        postService.deleteCommentById(id);
+    }
+
 }

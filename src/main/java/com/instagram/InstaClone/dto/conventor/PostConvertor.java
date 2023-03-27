@@ -14,6 +14,7 @@ public class PostConvertor {
 
         if(post.getTopic() != null) postDTO.setTopic(post.getTopic());
         if(post.getText() != null) postDTO.setText(post.getText());
+        postDTO.setComments(post.getComments());
         postDTO.setLikes(post.getLikes());
         postDTO.setDate(post.getDate());
 

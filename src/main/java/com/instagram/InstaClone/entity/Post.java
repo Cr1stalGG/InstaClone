@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "POSTS")
@@ -26,7 +27,12 @@ public class Post {
     private long likes;
     @Column(name = "DATE")
     private Date date;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Comment> comments;
 
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
     @Override
     public String toString() {
         return "Post{" +
