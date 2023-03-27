@@ -1,7 +1,7 @@
 package com.instagram.InstaClone.entity;
 
-import com.instagram.InstaClone.enumiration.Role;
-import com.instagram.InstaClone.enumiration.Sex;
+import com.instagram.InstaClone.entity.enumiration.Role;
+import com.instagram.InstaClone.entity.enumiration.Sex;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "USERS")

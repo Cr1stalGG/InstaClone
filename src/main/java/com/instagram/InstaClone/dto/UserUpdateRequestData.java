@@ -1,6 +1,6 @@
 package com.instagram.InstaClone.dto;
 
-import com.instagram.InstaClone.enumiration.Sex;
+import com.instagram.InstaClone.entity.enumiration.Sex;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.instagram.InstaClone.dto.conventor;
 import com.instagram.InstaClone.dto.UserMainDataDTO;
 import com.instagram.InstaClone.dto.UserRegistrationRequest;
 import com.instagram.InstaClone.entity.User;
-import com.instagram.InstaClone.enumiration.Role;
+import com.instagram.InstaClone.entity.enumiration.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

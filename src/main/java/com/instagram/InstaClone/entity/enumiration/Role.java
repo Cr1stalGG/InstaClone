@@ -1,4 +1,4 @@
-package com.instagram.InstaClone.enumiration;
+package com.instagram.InstaClone.entity.enumiration;
 
 public enum Role {
     ADMIN,

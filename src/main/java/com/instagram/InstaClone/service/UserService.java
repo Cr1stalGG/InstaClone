@@ -5,7 +5,7 @@ import com.instagram.InstaClone.dto.UserRegistrationRequest;
 import com.instagram.InstaClone.dto.UserUpdateRequestData;
 import com.instagram.InstaClone.dto.conventor.UserConvertor;
 import com.instagram.InstaClone.entity.User;
-import com.instagram.InstaClone.enumiration.Role;
+import com.instagram.InstaClone.entity.enumiration.Role;
 import com.instagram.InstaClone.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
