@@ -28,8 +28,8 @@ public class Post {
     @Column(name = "DATE")
     private Date date;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Image> images;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Image image;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
 

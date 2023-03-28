@@ -15,7 +15,7 @@ public class PostMainDataDTO {
     private String text;
     private long likes;
     private Date date;
-    private List<Image> images;
+    private Image image;
     private List<Comment> comments;
 
 }
