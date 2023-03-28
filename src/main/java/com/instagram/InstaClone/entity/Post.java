@@ -27,7 +27,10 @@ public class Post {
     private long likes;
     @Column(name = "DATE")
     private Date date;
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Image> images;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public void addComment(Comment comment){

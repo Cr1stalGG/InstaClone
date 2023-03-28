@@ -14,6 +14,7 @@ public class PostConvertor {
 
         if(post.getTopic() != null) postDTO.setTopic(post.getTopic());
         if(post.getText() != null) postDTO.setText(post.getText());
+        postDTO.setImages(post.getImages());
         postDTO.setComments(post.getComments());
         postDTO.setLikes(post.getLikes());
         postDTO.setDate(post.getDate());
@@ -27,6 +28,7 @@ public class PostConvertor {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
+        if(postDTO.getImages() != null) post.setImages(postDTO.getImages());
         post.setTopic(postDTO.getTopic());
         post.setText(postDTO.getText());
         post.setLikes(0);

@@ -1,6 +1,7 @@
 package com.instagram.InstaClone.dto;
 
 import com.instagram.InstaClone.entity.Comment;
+import com.instagram.InstaClone.entity.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ public class PostMainDataDTO {
     private String text;
     private long likes;
     private Date date;
+    private List<Image> images;
     private List<Comment> comments;
 
 }
