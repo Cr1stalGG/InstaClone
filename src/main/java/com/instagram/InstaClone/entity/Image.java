@@ -2,11 +2,13 @@ package com.instagram.InstaClone.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "IMAGES")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

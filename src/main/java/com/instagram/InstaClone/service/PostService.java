@@ -13,7 +13,9 @@ import com.instagram.InstaClone.repository.CommentRepository;
 import com.instagram.InstaClone.repository.PostRepository;
 import com.instagram.InstaClone.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +43,12 @@ public class PostService implements com.instagram.InstaClone.service.api.PostSer
         return postConvertor.convertMainDataToDTO(postRepository.findById(postId));
     }
 
+    @SneakyThrows
     @Override
-    public void addPost(long userId, PostRequest newPost) {
+    public void addPost(long userId, PostRequest newPost, MultipartFile file) {
         User user = userRepository.findById(userId);
 
-        user.addPost(postConvertor.convertPostRequestDataToEntity(newPost));
+        user.addPost(postConvertor.convertPostRequestDataToEntity(newPost, file));
 
         userRepository.save(user);
     }

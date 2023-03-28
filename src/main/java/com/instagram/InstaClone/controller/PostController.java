@@ -7,6 +7,7 @@ import com.instagram.InstaClone.dto.PostMainDataDTO;
 import com.instagram.InstaClone.dto.PostRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class PostController {
     }
 
     @PostMapping()
-    public void addPost(@PathVariable long userId, @RequestBody PostRequest post){
-        postService.addPost(userId, post);
+    public void addPost(@PathVariable long userId, @RequestBody PostRequest postRequest, @ModelAttribute MultipartFile file){
+        postService.addPost(userId, postRequest, file);
     }
 
     @PutMapping("/{id}")
