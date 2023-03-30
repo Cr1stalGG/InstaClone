@@ -17,7 +17,6 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -72,10 +71,9 @@ public class PostService implements com.instagram.InstaClone.service.api.PostSer
 
     @Override
     public List<CommentMainDataDTO> getComments(long postId) {
-        List<CommentMainDataDTO> commentDTOList = new ArrayList<>();
+        List<CommentMainDataDTO> commentDTOList;
 
-        for(Comment comment : postRepository.findById(postId).getComments())
-            commentDTOList.add(commentConvertor.convertMainDataToDTO(comment));
+        commentDTOList = postRepository.findById(postId).getComments().stream().map(commentConvertor::convertMainDataToDTO).toList();
 
         return commentDTOList;
     }
