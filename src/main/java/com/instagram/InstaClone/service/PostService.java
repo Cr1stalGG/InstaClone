@@ -30,10 +30,9 @@ public class PostService implements com.instagram.InstaClone.service.api.PostSer
     private final PostConvertor postConvertor;
     @Override
     public List<PostMainDataDTO> findAll() {
-        List<PostMainDataDTO> posts = new ArrayList<>();
+        List<PostMainDataDTO> posts;
 
-        for(Post post : postRepository.findAll())
-            posts.add(postConvertor.convertMainDataToDTO(post));
+        posts = postRepository.findAll().stream().map(postConvertor::convertMainDataToDTO).toList();
 
         return posts;
     }

@@ -5,12 +5,10 @@ import com.instagram.InstaClone.dto.UserRegistrationRequest;
 import com.instagram.InstaClone.dto.UserUpdateRequestData;
 import com.instagram.InstaClone.dto.conventor.UserConvertor;
 import com.instagram.InstaClone.entity.User;
-import com.instagram.InstaClone.entity.enumiration.Role;
 import com.instagram.InstaClone.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,8 +25,6 @@ public class UserService implements com.instagram.InstaClone.service.api.UserSer
     @Override
     public void addUser(UserRegistrationRequest newUser) {
         User user = userConvertor.convertRegistrationRequestToEntity(newUser);
-
-        user.setRole(Role.USER);
 
         userRepository.save(user);
     }
@@ -65,10 +61,9 @@ public class UserService implements com.instagram.InstaClone.service.api.UserSer
 
     @Override
     public List<UserMainDataDTO> findAllByUsername(String username) {
-        List<UserMainDataDTO> users = new ArrayList<>();
+        List<UserMainDataDTO> users;
 
-        for(User user : userRepository.searchAllByUsername(username))
-            users.add(userConvertor.convertMainDataToDTO(user));
+        users = userRepository.searchAllByUsername(username).stream().map(userConvertor::convertMainDataToDTO).toList();
 
         return users;
     }

@@ -12,7 +12,6 @@ import com.instagram.InstaClone.repository.MessageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,10 +24,9 @@ public class ChatService implements com.instagram.InstaClone.service.api.ChatSer
 
     @Override
     public List<ChatMainDataDTO> findAll() {
-        List<ChatMainDataDTO> chatList = new ArrayList<>();
+        List<ChatMainDataDTO> chatList;
 
-        for(Chat chat : chatRepository.findAll())
-            chatList.add(chatConvertor.convertMainDataToDTO(chat));
+        chatList = chatRepository.findAll().stream().map(chatConvertor::convertMainDataToDTO).toList();
 
         return chatList;
     }
