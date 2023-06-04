@@ -1,7 +1,6 @@
 package com.instagram.InstaClone.controller;
 
 import com.instagram.InstaClone.dto.UserMainDataDTO;
-import com.instagram.InstaClone.dto.UserRegistrationRequest;
 import com.instagram.InstaClone.dto.UserUpdateRequestData;
 import com.instagram.InstaClone.service.UserService;
 import lombok.AllArgsConstructor;
@@ -16,11 +15,6 @@ public class UserController {
     @GetMapping("/{id}")
     public UserMainDataDTO getUser(@PathVariable long id){
         return userService.findById(id);
-    }
-
-    @PostMapping()
-    public void addUser(@RequestBody UserRegistrationRequest newUser){
-        userService.addUser(newUser);
     }
 
     @PutMapping("/{id}")
