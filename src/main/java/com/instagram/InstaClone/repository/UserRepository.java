@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findById(long id);
     void deleteById(long id);
 
+    User getReferenceByUsername(String username);
+
     @Query("select  u from User u where u.username like %:#{#username}% order by u.username")
     List<User> searchAllByUsername(@Param("username") String username);
 }

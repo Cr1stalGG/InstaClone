@@ -5,11 +5,19 @@ import com.instagram.InstaClone.dto.UserRegistrationRequest;
 import com.instagram.InstaClone.dto.UserUpdateRequestData;
 import com.instagram.InstaClone.dto.conventor.UserConvertor;
 import com.instagram.InstaClone.entity.User;
+import com.instagram.InstaClone.entity.enumiration.Role;
 import com.instagram.InstaClone.repository.UserRepository;
+import com.instagram.InstaClone.security.AuthenticationRequest;
+import com.instagram.InstaClone.security.AuthenticationResponse;
+import com.instagram.InstaClone.security.JwtService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -17,16 +25,29 @@ public class UserService implements com.instagram.InstaClone.service.api.UserSer
     private final UserRepository userRepository;
     private final UserConvertor userConvertor;
 
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+
     @Override
     public UserMainDataDTO findById(long id) {
         return userConvertor.convertMainDataToDTO(userRepository.findById(id));
     }
 
     @Override
-    public void addUser(UserRegistrationRequest newUser) {
-        User user = userConvertor.convertRegistrationRequestToEntity(newUser);
+    public AuthenticationResponse addUser(UserRegistrationRequest newUser) {
+        var user = User.builder()
+                        .username(newUser.getUsername())
+                        .email(newUser.getEmail())
+                        .password(passwordEncoder.encode(newUser.getPassword()))
+                        .role(Role.USER)
+                        .build();
 
         userRepository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
     @Override
@@ -57,6 +78,17 @@ public class UserService implements com.instagram.InstaClone.service.api.UserSer
     @Override
     public void deleteUserById(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        User user = Optional.ofNullable(userRepository.getReferenceByUsername(request.getUsername())).orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder().token(jwtToken).build();
+
     }
 
     @Override

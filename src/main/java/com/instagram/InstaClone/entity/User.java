@@ -3,12 +3,13 @@ package com.instagram.InstaClone.entity;
 import com.instagram.InstaClone.entity.enumiration.Role;
 import com.instagram.InstaClone.entity.enumiration.Sex;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode
-public class User {
+@Builder
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,7 +35,7 @@ public class User {
     private Date birthday;
     @Column(name = "SEX")
     private Sex sex;
-    @Column(name = "ROLE")
+    @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<User> following;
@@ -58,5 +60,40 @@ public class User {
                 ", sex=" + sex +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
+    }
+
+    @Override
+    public String getUsername(){
+        return this.username;
+    }
+
+    @Override
+    public String getPassword(){
+        return this.password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
